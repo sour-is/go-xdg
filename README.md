@@ -15,7 +15,7 @@ For more information regarding the XDG user directories see:
 https://wiki.archlinux.org/index.php/XDG_user_directories
 
 ## Installation
-    go get github.com/adrg/xdg
+    go get github.com/sour-is/xdg
 
 ## Default locations
 
