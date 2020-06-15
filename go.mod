@@ -1,4 +1,4 @@
-module github.com/sour-is/xdg
+module github.com/sour-is/go-xdg
 
 go 1.14
 
