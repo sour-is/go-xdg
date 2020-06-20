@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/sour-is/xdg/vfs"
+	"github.com/sour-is/go-xdg/vfs"
 )
 
 type Dirs interface {
@@ -64,7 +64,7 @@ func (d DirFn) First() Path {
 }
 
 func Find(d Dirs, name string) (string, error) {
-	for _, p := range AddDirSuffix(d, name).Paths() {
+	for _, p := range AddSuffix(d, name).Paths() {
 		path := p.String()
 		if exists(path) {
 			return path, nil
@@ -76,7 +76,7 @@ func Find(d Dirs, name string) (string, error) {
 }
 
 func FindAll(d Dirs, name string) ([]string, error) {
-	paths := AddDirSuffix(d, name).Paths()
+	paths := AddSuffix(d, name).Paths()
 	foundPaths := make([]string, 0, len(paths))
 
 	for _, p := range paths {
@@ -102,18 +102,12 @@ func Create(d Dirs, name string) (vfs.File, error) {
 		return nil, err
 	}
 
-	f, err := fs.Create(AddPathSuffix(p, name).String())
+	f, err := fs.Create(AddSuffix(p, name).String())
 	if err != nil {
 		return nil, err
 	}
 
 	return f, f.Chmod(0600)
-
-}
-
-func NewDirs(a Path, lis ...Path) Dirs {
-
-	return DirList(append([]Path{a}, lis...))
 }
 
 func ParseDirs(s string) Dirs {
@@ -127,7 +121,7 @@ func ParseDirs(s string) Dirs {
 	return DirList(lis)
 }
 
-func AddDirSuffix(d Dirs, s string) Dirs {
+func AddSuffix(d Dirs, s string) Dirs {
 	return DirFn(func() []Path {
 		paths := d.Paths()
 		lis := make([]Path, len(paths))
@@ -139,7 +133,7 @@ func AddDirSuffix(d Dirs, s string) Dirs {
 	})
 }
 
-func EnvDirs(env Env, defaultDirs Dirs) Dirs {
+func EnvDefault(env Env, defaultDirs Dirs) Dirs {
 	return DirFn(func() []Path {
 		if env.IsSet() {
 			return ParseDirs(env.String()).Paths()
@@ -153,8 +147,20 @@ func EnvDirs(env Env, defaultDirs Dirs) Dirs {
 	})
 }
 
-func PrependDir(pre Dirs, rest Dirs) Dirs {
+func Merge(lis ...Dirs) Dirs {
 	return DirFn(func() []Path {
-		return append(pre.Paths(), rest.Paths()...)
+		n := 0
+
+		for i := range lis {
+			n += len(lis[i].Paths())
+		}
+
+		dirs := make([]Path, 0, n)
+
+		for i := range lis {
+			dirs = append(dirs, lis[i].Paths()...)
+		}
+
+		return dirs
 	})
 }

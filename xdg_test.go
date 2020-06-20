@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/matryer/is"
-	"github.com/sour-is/xdg"
+	"github.com/sour-is/go-xdg"
 )
 
 func TestXDG(t *testing.T) {

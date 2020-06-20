@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/matryer/is"
-	"github.com/sour-is/xdg/vfs"
+	"github.com/sour-is/go-xdg/vfs"
 )
 
 func TestCreateFile(t *testing.T) {

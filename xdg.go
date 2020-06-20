@@ -3,7 +3,7 @@ package xdg
 import (
 	"os"
 
-	"github.com/sour-is/xdg/vfs"
+	"github.com/sour-is/go-xdg/vfs"
 )
 
 var fs vfs.FileSystem = &vfs.OsFS{}
@@ -31,25 +31,25 @@ const (
 )
 
 var (
-	DataHome   Dirs = EnvPath(EnvDataHome, defaultDataHome)
-	DataDirs   Dirs = EnvDirs(EnvDataDirs, defaultDataDirs)
-	ConfigHome Dirs = EnvPath(EnvConfigHome, defaultConfigHome)
-	ConfigDirs Dirs = EnvDirs(EnvConfigDirs, defaultConfigDirs)
-	CacheHome  Dirs = EnvPath(EnvCacheHome, defaultCacheHome)
-	Runtime    Dirs = EnvPath(EnvRuntime, defaultRuntime)
+	DataHome   Dirs = EnvDefault(EnvDataHome, defaultDataHome)
+	DataDirs   Dirs = EnvDefault(EnvDataDirs, defaultDataDirs)
+	ConfigHome Dirs = EnvDefault(EnvConfigHome, defaultConfigHome)
+	ConfigDirs Dirs = EnvDefault(EnvConfigDirs, defaultConfigDirs)
+	CacheHome  Dirs = EnvDefault(EnvCacheHome, defaultCacheHome)
+	Runtime    Dirs = EnvDefault(EnvRuntime, defaultRuntime)
 
-	UserHome   Dirs = DirList{homeFn}
-	UserData   Dirs = PrependDir(DataHome, DataDirs)
-	UserConfig Dirs = PrependDir(ConfigHome, ConfigDirs)
+	UserHome   Dirs = homeFn
+	UserData   Dirs = Merge(DataHome, DataDirs)
+	UserConfig Dirs = Merge(ConfigHome, ConfigDirs)
 
-	UserDesktop   Dirs = EnvPath(EnvDesktopDir, defaultDesktop)
-	UserDownload  Dirs = EnvPath(EnvDownloadDir, defaultDownload)
-	UserDocuments Dirs = EnvPath(EnvDocumentsDir, defaultDocuments)
-	UserMusic     Dirs = EnvPath(EnvMusicDir, defaultMusic)
-	UserPictures  Dirs = EnvPath(EnvPicturesDir, defaultPictures)
-	UserVideos    Dirs = EnvPath(EnvVideosDir, defaultVideos)
-	UserTemplates Dirs = EnvPath(EnvTemplatesDir, defaultTemplates)
-	UserPublic    Dirs = EnvPath(EnvPublicShareDir, defaultPublic)
+	UserDesktop   Dirs = EnvDefault(EnvDesktopDir, defaultDesktop)
+	UserDownload  Dirs = EnvDefault(EnvDownloadDir, defaultDownload)
+	UserDocuments Dirs = EnvDefault(EnvDocumentsDir, defaultDocuments)
+	UserMusic     Dirs = EnvDefault(EnvMusicDir, defaultMusic)
+	UserPictures  Dirs = EnvDefault(EnvPicturesDir, defaultPictures)
+	UserVideos    Dirs = EnvDefault(EnvVideosDir, defaultVideos)
+	UserTemplates Dirs = EnvDefault(EnvTemplatesDir, defaultTemplates)
+	UserPublic    Dirs = EnvDefault(EnvPublicShareDir, defaultPublic)
 
 	Applications Dirs = defaultApplicationDirs
 	Fonts        Dirs = defaultFontDirs

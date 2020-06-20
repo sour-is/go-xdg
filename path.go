@@ -80,22 +80,6 @@ func ParsePath(s string) Path {
 	return path(lis)
 }
 
-func EnvPath(env Env, defaultPath Path) Path {
-	return pathFn(func() []Segment {
-		if env.IsSet() {
-			return ParsePath(env.String()).Segments()
-		}
-
-		return defaultPath.Segments()
-	})
-}
-
-func AddPathSuffix(p Path, s string) Path {
-	return pathFn(func() []Segment {
-		return append(p.Segments(), Str(s))
-	})
-}
-
 func exists(name string) bool {
 	_, err := fs.Stat(name)
 	return err == nil || fs.IsExist(err)
