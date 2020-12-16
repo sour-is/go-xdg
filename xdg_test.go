@@ -11,7 +11,7 @@ import (
 func TestXDG(t *testing.T) {
 	is := is.New(t)
 
-	os.Setenv("HOME", "/home/user")
+	os.Setenv("HOME", testUserHome)
 
-	is.Equal(xdg.UserHome.String(), "/home/user")
+	is.Equal(xdg.UserHome.String(), testUserHome)
 }

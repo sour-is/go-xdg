@@ -19,9 +19,6 @@ var (
 	defaultTemplates = ParsePath("~/Templates")
 	defaultPublic    = ParsePath("~/Public")
 
-	defaultApplicationDirs = ParseDirs("/Applications")
-	defaultFontDirs        = Merge(
-		ParseDirs("~/Library/Fonts:/Library/Fonts:/System/Library/Fonts:/Network/Library/Fonts"),
-		AddSuffix(EnvDefault("XDG_DATA_DIRS", nil), "fonts"),
-	)
+	defaultApplicationDirs = ParseDirs("~/Applications:/Applications")
+	defaultFontDirs        = ParseDirs("~/Library/Fonts:/Library/Fonts:/System/Library/Fonts:/Network/Library/Fonts")
 )

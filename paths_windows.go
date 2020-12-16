@@ -4,9 +4,9 @@ package xdg
 
 var (
 	defaultDataHome   = ParsePath(`%LOCALAPPDATA%`)
-	defaultDataDirs   = ParseDirs(`%APPDATA%\Roaming:%PROGRAMDATA%`)
+	defaultDataDirs   = ParseDirs(`%APPDATA%\Roaming;%ProgramData%`)
 	defaultConfigHome = ParsePath(`%LOCALAPPDATA%`)
-	defaultConfigDirs = ParseDirs(`%PROGRAMDATA%`)
+	defaultConfigDirs = ParseDirs(`%ProgramData%`)
 	defaultCacheHome  = ParsePath(`%LOCALAPPDATA%\cache`)
 	defaultRuntime    = ParsePath(`%LOCALAPPDATA%`)
 
@@ -20,5 +20,5 @@ var (
 	defaultPublic    = ParsePath(`%USERPROFILE%\Public`)
 
 	defaultApplicationDirs = ParseDirs(`%APPDATA%\Roaming\Microsoft\Windows\Start Menu\Programs`)
-	defaultFontDirs        = ParseDirs(`%windir%\Fonts:%LOCALAPPDATA%\Microsoft\Windows\Fonts`)
+	defaultFontDirs        = ParseDirs(`%windir%\Fonts;%LOCALAPPDATA%\Microsoft\Windows\Fonts`)
 )

@@ -23,6 +23,9 @@ func (d DirList) String() string {
 	paths := d.Paths()
 	lis := make([]string, len(paths))
 	for i := range paths {
+		if !paths[i].IsValid() {
+			continue
+		}
 		lis[i] = paths[i].String()
 	}
 
@@ -111,11 +114,16 @@ func Create(d Dirs, name string) (vfs.File, error) {
 }
 
 func ParseDirs(s string) Dirs {
-	sp := strings.Split(s, string(os.PathListSeparator))
+	sep := string(os.PathListSeparator)
+	sp := strings.Split(s, sep)
 	lis := make([]Path, 0, len(sp))
 
 	for i := range sp {
-		lis = append(lis, ParsePath(sp[i]))
+		path := ParsePath(sp[i])
+		if path == nil {
+			continue
+		}
+		lis = append(lis, path)
 	}
 
 	return DirList(lis)

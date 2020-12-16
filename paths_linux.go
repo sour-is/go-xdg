@@ -8,7 +8,7 @@ var (
 	defaultConfigHome = ParsePath("~/.config")
 	defaultConfigDirs = ParseDirs("/etc/xdg")
 	defaultCacheHome  = ParsePath("~/.cache")
-	defaultRuntime    = ParsePath("/run/user/UID")
+	defaultRuntime    = ParsePath("/run/user/$UID")
 
 	defaultDesktop   = ParsePath("~/Desktop")
 	defaultDownload  = ParsePath("~/Downloads")
@@ -20,11 +20,16 @@ var (
 	defaultPublic    = ParsePath("~/Public")
 
 	defaultApplicationDirs = Merge(
-		ParseDirs("$XDG_DATA_HOME/applications:~/.local/share/applications:/usr/local/share/applications:/usr/share/applications"),
+		AddSuffix(EnvDefault("XDG_DATA_HOME", nil), "applications"),
+		AddSuffix(defaultDataHome, "applications"),
+		AddSuffix(defaultDataDirs, "applications"),
 		AddSuffix(EnvDefault("XDG_DATA_DIRS", nil), "applications"),
 	)
 	defaultFontDirs = Merge(
-		ParseDirs("$XDG_DATA_HOME/fonts:~/.local/share/fonts:/usr/local/share/fonts:/usr/share/fonts"),
+		AddSuffix(EnvDefault("XDG_DATA_HOME", nil), "fonts"),
+		ParsePath("~/.fonts"),
+		AddSuffix(defaultDataHome, "fonts"),
+		AddSuffix(defaultDataDirs, "fonts"),
 		AddSuffix(EnvDefault("XDG_DATA_DIRS", nil), "fonts"),
 	)
 )

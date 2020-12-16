@@ -11,19 +11,19 @@ import (
 func TestPaths(t *testing.T) {
 	is := is.New(t)
 
-	os.Setenv("HOME", "/home/user")
+	sep := string(os.PathListSeparator)
 
-	is.Equal(xdg.DataHome.String(), testDataHome)
-	is.Equal(xdg.DataDirs.String(), testDataDirs)
-	is.Equal(xdg.ConfigHome.String(), testConfigHome)
-	is.Equal(xdg.ConfigDirs.String(), testConfigDirs)
-	is.Equal(xdg.CacheHome.String(), testCacheHome)
-	is.Equal(xdg.Runtime.String(), testRuntime)
-	is.Equal(xdg.ConfigHome.String(), testConfigHome)
+	is.Equal(xdg.DataHome.String(), testDataHome)     // testDataHome
+	is.Equal(xdg.DataDirs.String(), testDataDirs)     // testDataDirs
+	is.Equal(xdg.ConfigHome.String(), testConfigHome) // testConfigHome
+	is.Equal(xdg.ConfigDirs.String(), testConfigDirs) // testConfigDirs
+	is.Equal(xdg.CacheHome.String(), testCacheHome)   // testCacheHome
+	is.Equal(xdg.Runtime.String(), testRuntime)       // testRuntime
+	is.Equal(xdg.ConfigHome.String(), testConfigHome) // testConfigHome
 
-	is.Equal(xdg.UserHome.String(), "/home/user")
-	is.Equal(xdg.UserData.String(), testDataHome+":"+testDataDirs)
-	is.Equal(xdg.UserConfig.String(), testConfigHome+":"+testConfigDirs)
+	is.Equal(xdg.UserHome.String(), testUserHome)
+	is.Equal(xdg.UserData.String(), testDataHome+sep+testDataDirs)
+	is.Equal(xdg.UserConfig.String(), testConfigHome+sep+testConfigDirs)
 
 	is.Equal(xdg.UserDesktop.String(), testDesktop)
 	is.Equal(xdg.UserDocuments.String(), testDocuments)
@@ -37,42 +37,46 @@ func TestPaths(t *testing.T) {
 	is.Equal(xdg.Applications.String(), testApplications)
 	is.Equal(xdg.Fonts.String(), testFonts)
 
-	os.Setenv("XDG_DATA_HOME", "/xdg/data")
-	os.Setenv("XDG_DATA_DIRS", "/xdg/data:/xdg/opt/data")
-	os.Setenv("XDG_CONFIG_HOME", "/xdg/config")
-	os.Setenv("XDG_CONFIG_DIRS", "/xdg/config:/xdg/opt/config")
-	os.Setenv("XDG_CACHE_HOME", "/xdg/cache")
-	os.Setenv("XDG_RUNTIME_DIR", "/xdg/run")
+	os.Setenv("XDG_DATA_HOME", testXDGDataHome)
+	os.Setenv("XDG_DATA_DIRS", testXDGDataDirs)
+	os.Setenv("XDG_CONFIG_HOME", testXDGConfigHome)
+	os.Setenv("XDG_CONFIG_DIRS", testXDGConfigDirs)
+	os.Setenv("XDG_CACHE_HOME", testXDGCacheHome)
+	os.Setenv("XDG_RUNTIME_DIR", testXDGRuntime)
 
-	os.Setenv("XDG_DESKTOP_DIR", "/xdg/desktop")
-	os.Setenv("XDG_DOWNLOAD_DIR", "/xdg/download")
-	os.Setenv("XDG_DOCUMENTS_DIR", "/xdg/documents")
-	os.Setenv("XDG_MUSIC_DIR", "/xdg/music")
-	os.Setenv("XDG_PICTURES_DIR", "/xdg/pictures")
-	os.Setenv("XDG_VIDEOS_DIR", "/xdg/videos")
-	os.Setenv("XDG_TEMPLATES_DIR", "/xdg/templates")
-	os.Setenv("XDG_PUBLICSHARE_DIR", "/xdg/public")
+	os.Setenv("XDG_DESKTOP_DIR", testXDGDesktop)
+	os.Setenv("XDG_DOWNLOAD_DIR", testXDGDownload)
+	os.Setenv("XDG_DOCUMENTS_DIR", testXDGDocuments)
+	os.Setenv("XDG_MUSIC_DIR", testXDGMusic)
+	os.Setenv("XDG_PICTURES_DIR", testXDGPictures)
+	os.Setenv("XDG_VIDEOS_DIR", testXDGVideos)
+	os.Setenv("XDG_TEMPLATES_DIR", testXDGTemplates)
+	os.Setenv("XDG_PUBLICSHARE_DIR", testXDGPublic)
 
-	is.Equal(xdg.DataHome.String(), "/xdg/data")
-	is.Equal(xdg.DataDirs.String(), "/xdg/data:/xdg/opt/data")
-	is.Equal(xdg.ConfigHome.String(), "/xdg/config")
-	is.Equal(xdg.ConfigDirs.String(), "/xdg/config:/xdg/opt/config")
-	is.Equal(xdg.CacheHome.String(), "/xdg/cache")
-	is.Equal(xdg.Runtime.String(), "/xdg/run")
+	for i, s := range xdg.DataHome.First().Segments() {
+		t.Logf("%d - %T %#v", i, s, s)
+	}
 
-	is.Equal(xdg.UserHome.String(), "/home/user")
-	is.Equal(xdg.UserData.String(), "/xdg/data:/xdg/data:/xdg/opt/data")
-	is.Equal(xdg.UserConfig.String(), "/xdg/config:/xdg/config:/xdg/opt/config")
+	is.Equal(xdg.DataHome.String(), testXDGDataHome)
+	is.Equal(xdg.DataDirs.String(), testXDGDataDirs)
+	is.Equal(xdg.ConfigHome.String(), testXDGConfigHome)
+	is.Equal(xdg.ConfigDirs.String(), testXDGConfigDirs)
+	is.Equal(xdg.CacheHome.String(), testXDGCacheHome)
+	is.Equal(xdg.Runtime.String(), testXDGRuntime)
 
-	is.Equal(xdg.UserDesktop.String(), "/xdg/desktop")
-	is.Equal(xdg.UserDocuments.String(), "/xdg/documents")
-	is.Equal(xdg.UserDownload.String(), "/xdg/download")
-	is.Equal(xdg.UserMusic.String(), "/xdg/music")
-	is.Equal(xdg.UserPictures.String(), "/xdg/pictures")
-	is.Equal(xdg.UserVideos.String(), "/xdg/videos")
-	is.Equal(xdg.UserTemplates.String(), "/xdg/templates")
-	is.Equal(xdg.UserPublic.String(), "/xdg/public")
+	is.Equal(xdg.UserHome.String(), testUserHome)
+	is.Equal(xdg.UserData.String(), testXDGDataHome+sep+testXDGDataDirs)
+	is.Equal(xdg.UserConfig.String(), testXDGConfigHome+sep+testXDGConfigDirs)
 
-	is.Equal(xdg.Applications.String(), testApplications)
-	is.Equal(xdg.Fonts.String(), testFonts+":/xdg/data/fonts:/xdg/opt/data/fonts")
+	is.Equal(xdg.UserDesktop.String(), testXDGDesktop)
+	is.Equal(xdg.UserDocuments.String(), testXDGDocuments)
+	is.Equal(xdg.UserDownload.String(), testXDGDownload)
+	is.Equal(xdg.UserMusic.String(), testXDGMusic)
+	is.Equal(xdg.UserPictures.String(), testXDGPictures)
+	is.Equal(xdg.UserVideos.String(), testXDGVideos)
+	is.Equal(xdg.UserTemplates.String(), testXDGTemplates)
+	is.Equal(xdg.UserPublic.String(), testXDGPublic)
+
+	is.Equal(xdg.Applications.String(), testXDGApplications)
+	is.Equal(xdg.Fonts.String(), testXDGFonts)
 }

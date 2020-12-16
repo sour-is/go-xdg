@@ -8,6 +8,7 @@ import (
 )
 
 type Path interface {
+	IsValid() bool
 	Segments() []Segment
 	String() string
 	Paths() []Path
@@ -22,9 +23,13 @@ var _ Dirs = (*path)(nil)
 func (p path) String() string {
 	lis := make([]string, len(p))
 	for i := range p {
+		if !p[i].IsValid() {
+			return ""
+		}
 		lis[i] = p[i].String()
 	}
 
+	fmt.Fprintln(os.Stderr, lis)
 	return filepath.Join(lis...)
 }
 func (p path) Segments() []Segment {
@@ -35,6 +40,14 @@ func (p path) Paths() []Path {
 }
 func (p path) First() Path {
 	return p
+}
+func (p path) IsValid() bool {
+	for _, s := range p.Segments() {
+		if !s.IsValid() {
+			return false
+		}
+	}
+	return true
 }
 
 type pathFn func() []Segment
@@ -54,24 +67,32 @@ func (p pathFn) Paths() []Path {
 func (p pathFn) First() Path {
 	return p
 }
+func (p pathFn) IsValid() bool {
+	return p() != nil
+}
 
 func NewPath(lis ...Segment) Path {
 	return path(lis)
 }
 
 func ParsePath(s string) Path {
-	sp := strings.Split(s, string(os.PathSeparator))
+	sep := string(os.PathSeparator)
+	sp := strings.Split(s, sep)
 	lis := make([]Segment, 0, len(sp))
 	for i := range sp {
 		switch {
 		case sp[i] == "~":
 			lis = append(lis, homeFn)
 		case strings.HasPrefix(sp[i], "$"):
-			lis = append(lis, Env(strings.TrimPrefix(sp[i], "$")))
+			e := Env(strings.TrimPrefix(sp[i], "$"))
+			lis = append(lis, e)
 		case strings.HasPrefix(sp[i], "%") && strings.HasSuffix(sp[i], "%"):
-			lis = append(lis, Env(strings.Trim(sp[i], "%")))
+			e := Env(strings.Trim(sp[i], "%"))
+			lis = append(lis, e)
 		case sp[i] == "":
-			lis = append(lis, Str("/"))
+			lis = append(lis, Str(sep))
+		case len(sp[i]) == 2 && sp[i][1] == ':' && (sp[i][0] >= 'a' && sp[i][0] <= 'z') || (sp[i][0] >= 'A' && sp[i][0] <= 'Z'):
+			lis = append(lis, Str(sp[i]+sep))
 		default:
 			lis = append(lis, Str(sp[i]))
 		}
