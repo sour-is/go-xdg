@@ -20,5 +20,5 @@ var (
 	testPublic    = "~/Public"
 
 	testApplicationDirs = "/Applications"
-	testFontDirs        = "$XDG_DATA_HOME/fonts:~/.fonts:~/.local/share/fonts:/usr/local/share/fonts:/usr/share/fonts:~/.fonts",
+	testFontDirs        = "$XDG_DATA_HOME/fonts:~/.fonts:~/.local/share/fonts:/usr/local/share/fonts:/usr/share/fonts:~/.fonts"
 )
