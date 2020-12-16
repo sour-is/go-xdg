@@ -53,10 +53,6 @@ func TestPaths(t *testing.T) {
 	os.Setenv("XDG_TEMPLATES_DIR", testXDGTemplates)
 	os.Setenv("XDG_PUBLICSHARE_DIR", testXDGPublic)
 
-	for i, s := range xdg.DataHome.First().Segments() {
-		t.Logf("%d - %T %#v", i, s, s)
-	}
-
 	is.Equal(xdg.DataHome.String(), testXDGDataHome)
 	is.Equal(xdg.DataDirs.String(), testXDGDataDirs)
 	is.Equal(xdg.ConfigHome.String(), testXDGConfigHome)

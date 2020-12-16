@@ -29,7 +29,6 @@ func (p path) String() string {
 		lis[i] = p[i].String()
 	}
 
-	fmt.Fprintln(os.Stderr, lis)
 	return filepath.Join(lis...)
 }
 func (p path) Segments() []Segment {
@@ -91,7 +90,7 @@ func ParsePath(s string) Path {
 			lis = append(lis, e)
 		case sp[i] == "":
 			lis = append(lis, Str(sep))
-		case len(sp[i]) == 2 && sp[i][1] == ':' && (sp[i][0] >= 'a' && sp[i][0] <= 'z') || (sp[i][0] >= 'A' && sp[i][0] <= 'Z'):
+		case len(sp[i]) == 2 && sp[i][1] == ':' && ((sp[i][0] >= 'a' && sp[i][0] <= 'z') || (sp[i][0] >= 'A' && sp[i][0] <= 'Z')):
 			lis = append(lis, Str(sp[i]+sep))
 		default:
 			lis = append(lis, Str(sp[i]))
