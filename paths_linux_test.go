@@ -15,7 +15,7 @@ var (
 	testDataDirs   = "/usr/local/share:/usr/share"
 	testConfigHome = testUserHome + "/.config"
 	testConfigDirs = "/etc/xdg"
-	testCacheHome  = testUserHome + "/.cache"
+	testCacheHome  = testUserHome + "/.local/cache"
 	testRuntime    = "/run/user/" + strconv.Itoa(os.Getuid())
 
 	testDesktop   = testUserHome + "/Desktop"
