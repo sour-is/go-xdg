@@ -18,6 +18,7 @@ const (
 	EnvConfigHome = Env("XDG_CONFIG_HOME")
 	EnvConfigDirs = Env("XDG_CONFIG_DIRS")
 	EnvCacheHome  = Env("XDG_CACHE_HOME")
+	EnvStateHome  = Env("XDG_STATE_HOME")
 	EnvRuntime    = Env("XDG_RUNTIME_DIR")
 
 	EnvDesktopDir     = Env("XDG_DESKTOP_DIR")
@@ -36,6 +37,7 @@ var (
 	ConfigHome Dirs = EnvDefault(EnvConfigHome, defaultConfigHome)
 	ConfigDirs Dirs = EnvDefault(EnvConfigDirs, defaultConfigDirs)
 	CacheHome  Dirs = EnvDefault(EnvCacheHome, defaultCacheHome)
+	StateHome  Dirs = EnvDefault(EnvStateHome, defaultStateHome)
 	Runtime    Dirs = EnvDefault(EnvRuntime, defaultRuntime)
 
 	UserHome   Dirs = homeFn
