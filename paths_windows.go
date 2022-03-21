@@ -8,6 +8,7 @@ var (
 	defaultConfigHome = ParsePath(`%LOCALAPPDATA%`)
 	defaultConfigDirs = ParseDirs(`%ProgramData%`)
 	defaultCacheHome  = ParsePath(`%LOCALAPPDATA%\cache`)
+	defaultStateHome  = ParsePath(`%LOCALAPPDATA%\state`)
 	defaultRuntime    = ParsePath(`%LOCALAPPDATA%`)
 
 	defaultDesktop   = ParsePath(`%USERPROFILE%\Desktop`)
