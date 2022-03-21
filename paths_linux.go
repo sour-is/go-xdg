@@ -7,7 +7,8 @@ var (
 	defaultDataDirs   = ParseDirs("/usr/local/share:/usr/share")
 	defaultConfigHome = ParsePath("~/.config")
 	defaultConfigDirs = ParseDirs("/etc/xdg")
-	defaultCacheHome  = ParsePath("~/.cache")
+	defaultCacheHome  = ParsePath("~/.local/cache")
+	defaultStateHome  = ParsePath("~/.local/state")
 	defaultRuntime    = ParsePath("/run/user/$UID")
 
 	defaultDesktop   = ParsePath("~/Desktop")

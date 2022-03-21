@@ -8,6 +8,7 @@ var (
 	defaultConfigHome = ParsePath("~/Library/Preferences")
 	defaultConfigDirs = ParseDirs("/Library/Preferences")
 	defaultCacheHome  = ParsePath("~/Library/Caches")
+	defaultStateHome  = ParsePath("~/Library/Caches")
 	defaultRuntime    = ParsePath("~/Library/Application Support")
 
 	defaultDesktop   = ParsePath("~/Desktop")
